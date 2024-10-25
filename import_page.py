@@ -11,7 +11,6 @@ class ImportPage_UI(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        print('OK')
     def initUI(self):
         self.setWindowTitle("Dataset Import Page")
         self.manager = bin.BinaryFileManager()
