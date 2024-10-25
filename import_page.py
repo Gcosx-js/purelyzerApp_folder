@@ -6,7 +6,7 @@ import binary  as bin
 import funcs as f
 import os,logging,pickle
 from main import PurelyzerApp
-print('OK')
+
 class ImportPage_UI(QWidget):
     def __init__(self):
         super().__init__()

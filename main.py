@@ -127,21 +127,33 @@ class PurelyzerApp(QWidget):
             else:
                 event.ignore()
                 
-    def load_to_table(self,dataset_lo=pd.DataFrame):
-        self.app.overview_table_widget.setColumnCount(len(dataset_lo.columns)+1)
+    def load_to_table(self, dataset_lo=pd.DataFrame):
+        self.app.overview_table_widget.setColumnCount(len(dataset_lo.columns) + 1)
         self.app.overview_table_widget.setRowCount(len(dataset_lo.index))
-        self.app.overview_table_widget.setHorizontalHeaderLabels(['ID']+list(dataset_lo.columns))
+        self.app.overview_table_widget.setHorizontalHeaderLabels(['ID'] + list(dataset_lo.columns))
         self.app.overview_table_widget.resizeRowsToContents()
+        header = self.app.overview_table_widget.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        # Yazı tipini tanımlıyoruz
         font = QFont()
-        font.setBold(True)
+        font.setPointSize(15)  # Yazı boyutunu 15 yapıyoruz
+        font.setBold(True)  # Yazı tipini kalın yapıyoruz
         
+        # Sütun genişliklerini içeriklere göre ayarla
         self.app.overview_table_widget.resizeColumnsToContents()
         
         for i in range(len(dataset_lo.index)):
-            self.app.overview_table_widget.setItem(i,0,QTableWidgetItem(str(dataset_lo.index[i])))
+            # ID sütunu için item oluşturma ve font ayarlama
+            id_item = QTableWidgetItem(str(dataset_lo.index[i]))
+            id_item.setFont(font)  # Font ayarını uyguluyoruz
+            self.app.overview_table_widget.setItem(i, 0, id_item)
             
             for j in range(len(dataset_lo.columns)):
-                self.app.overview_table_widget.setItem(i,j+1,QTableWidgetItem(str(dataset_lo.iat[i,j])))
+                # Her hücre için item oluşturma ve font ayarlama
+                item = QTableWidgetItem(str(dataset_lo.iat[i, j]))
+                item.setFont(font)  # Font ayarını uyguluyoruz
+                self.app.overview_table_widget.setItem(i, j + 1, item)
+        
             
                    
     

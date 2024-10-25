@@ -449,57 +449,56 @@ class Ui_Form(QtWidgets.QWidget):
         self.label_9.setObjectName("label_9")
         self.overview_table_widget = QtWidgets.QTableWidget(self.overview_page)
         self.overview_table_widget.setGeometry(QtCore.QRect(590, 340, 431, 341))
-        self.overview_table_widget.setStyleSheet("/* QTableWidget için Dark Theme */\n"
-"\n"
-"QTableWidget {\n"
-"    background-color:rgba(20,20,20,255);;   /* Arka plan rengi: Koyu gri */\n"
-"    color: #f0f0f0;              /* Metin rengi: Beyaz */\n"
-"    gridline-color: #3e3e3e;     /* Hücre ızgara çizgileri: Orta gri */\n"
-"    border: 1px solid #3e3e3e;   /* Dış sınır: Orta gri */\n"
-"    border-radius:15px;\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    background-color: #3e3e3e;   /* Başlık arka plan rengi: Orta gri */\n"
-"    color: #f0f0f0;              /* Başlık metin rengi: Beyaz */\n"
-"    padding: 4px;\n"
-"    border: 1px solid #2b2b2b;   /* Başlık kenarlık rengi: Koyu gri */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    selection-background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */\n"
-"    selection-color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */\n"
-"    color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */\n"
-"    border:1px solid yellow;\n"
-"}\n"
-"QTableCornerButton::section {\n"
-"    background-color: #2b2b2b; /* Rengi koyu gri olarak değiştir */\n"
-"    border: 1px solid #3e3e3e; /* Kenarlık rengi orta gri */\n"
-"}\n"
-"\n"
-"QScrollBar:vertical {\n"
-"    background-color: #2b2b2b; /* Dikey kaydırma çubuğu arka plan rengi: Koyu gri */\n"
-"    width: 15px;\n"
-"    margin: 0px 3px 0px 3px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background-color: #5a5a5a; /* Dikey kaydırma çubuğu tutamağı: Gri */\n"
-"    min-height: 20px;\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    background-color: #3e3e3e; /* Kaydırma çubuğu butonları: Orta gri */\n"
-"    height: 15px;\n"
-"}\n"
-"\n"
-"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
-"    background: none;\n"
-"}")
+        self.overview_table_widget.setStyleSheet("""
+    QTableWidget {
+        background-color: rgba(20, 20, 20, 255);
+        color: #f0f0f0;
+        gridline-color: #3e3e3e;
+        border: 1px solid #3e3e3e;
+        padding-right: 0px;
+        selection-background-color: #444444;
+        selection-color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: #3e3e3e; /* Başlık arka plan rengi: Orta gri */
+    color: #f0f0f0; /* Başlık metin rengi: Beyaz */
+    padding: 4px;
+    border: 1px solid #2b2b2b; /* Başlık kenarlık rengi: Koyu gri */
+}
+
+QTableWidget::item {
+    selection-background-color: #444444; /* Seçili öğe arka plan rengi */
+    selection-color: #ffffff; /* Seçili öğe metin rengi */
+    margin: 5px;
+}
+
+QTableWidget::item:selected {
+    background-color: #444444; /* Seçili öğe arka plan rengi */
+    color: #ffffff; /* Seçili öğe metin rengi */
+    border: 1px solid yellow;
+}
+
+QScrollBar:vertical {
+    background-color: #2b2b2b; /* Dikey kaydırma çubuğu arka plan rengi: Koyu gri */
+    width: 15px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #5a5a5a; /* Dikey kaydırma çubuğu tutamağı: Gri */
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background-color: #3e3e3e; /* Kaydırma çubuğu butonları: Orta gri */
+    height: 15px;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
+""")
         self.overview_table_widget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.overview_table_widget.setGridStyle(QtCore.Qt.SolidLine)
         self.overview_table_widget.setObjectName("overview_table_widget")
