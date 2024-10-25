@@ -100,9 +100,12 @@ def open_dataset_with_options(options_list):
             if i.lower() == 'time':
                 if df[i].str.contains('.').any():
                     df[i] = df[i].str.replace('.', ':', regex=False)
-                        
-                df[i] = pd.to_timedelta(df[i], errors='coerce')
-                df[i] = df[i].astype('timedelta64[ns]')
+
+                # timedelta'ya çevir
+                    df[i] = pd.to_timedelta(df[i], errors='coerce')
+
+                    # Formatı "HH:MM:SS" olarak ayarlamak için
+                    df[i] = df[i].apply(lambda x: str(x).split(' ')[-1] if pd.notnull(x) else x)
         return df
     except Exception as e:
         print('Error : ',e)
