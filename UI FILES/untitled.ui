@@ -1,0 +1,5085 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1390</width>
+    <height>755</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Purelyzer Data Cleaning Tool</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#Form{
+	background-color:rrgba(20,20,20,255);
+}</string>
+  </property>
+  <widget class="QStackedWidget" name="main_stacked_widget">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>20</y>
+     <width>1081</width>
+     <height>801</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgba(30,30,30,240);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="currentIndex">
+    <number>2</number>
+   </property>
+   <widget class="QWidget" name="overview_page">
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>60</y>
+       <width>241</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="text">
+      <string>Data summary</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>110</y>
+       <width>431</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>29</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px transparent;
+border-radius:20px;
+background-color:rrgba(20,20,20,255);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="general_overview_listwidget">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>140</y>
+       <width>401</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>23</pointsize>
+      </font>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QListWidget {
+	color:white;
+	background-color:transparent;
+	outline:0;
+	border:1px transparent;
+}
+QListWidget::item {
+	color:white;
+	background-color:transparent;
+ 	margin: 3px;
+	border:1px transparent;
+}
+QListWidget::item:selected{
+	background-color:transparent;
+	color:white;
+	border:1px solid #808080;
+}
+
+
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Row count : 1234567</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Column count : 12345678</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Missing values count : 12356789</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Duplicate values count : 12345678</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>350</y>
+       <width>201</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="text">
+      <string>Missing values </string>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="missing_v_stacked">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>400</y>
+       <width>421</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px transparent;
+border-radius:20px;
+background-color:rrgba(20,20,20,255);
+</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="mv_main_page">
+      <widget class="QPushButton" name="remove_mv_btn">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>70</y>
+         <width>321</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>.Lucida Grande UI</family>
+         <pointsize>23</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Remove missing values</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>35</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="fill_missing_v_btn">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>160</y>
+         <width>321</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>.Lucida Grande UI</family>
+         <pointsize>23</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string extracomment="Elmir"/>
+       </property>
+       <property name="toolTipDuration">
+        <number>3</number>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Fill missing values</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>35</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="mv_fill_page">
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>361</width>
+         <height>131</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Lucida Grande</family>
+         <pointsize>29</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border:1px solid rgba(80,80,80,0.5);
+border-radius:20px;
+background-color:rgba(20,20,20,255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="median_radiobtn">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>70</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string>Median</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>0</y>
+         <width>351</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Lucida Grande</family>
+         <pointsize>21</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;
+background-color:transparent;</string>
+       </property>
+       <property name="text">
+        <string>Select the option you want to fill</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="average_radiobtn">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>70</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string>Average</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="sequential_radiobtn">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>130</y>
+         <width>331</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string> Sequential Forward Loading</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="mod_radiobtn">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>70</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string>Mod</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="custom_v_lineedit">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>190</y>
+         <width>241</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border:1px solid rgba(80,80,80,0.5);
+border-radius:20px;
+background-color:rgba(20,20,20,255);
+color:white;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string>Type custom value..</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="fill_mv_done_btn">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>191</y>
+         <width>113</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid rgba(0,230,0,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:rgba(0,230,0,0.5);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Done</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="cancel_fill_mv_btn">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>240</y>
+         <width>361</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid rgba(230,0,0,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:rgba(240,0,0,0.5);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="mv_remove_page">
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>150</y>
+         <width>251</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Lucida Grande</family>
+         <pointsize>29</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border:1px solid rgba(80,80,80,0.5);
+border-radius:20px;
+background-color:rgba(20,20,20,255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="done_remove_mv_btn">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>150</y>
+         <width>113</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid rgba(0,230,0,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:rgba(0,230,0,0.5);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Done</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="column_remove_mv_btn">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>160</y>
+         <width>121</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string>Column</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>381</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Lucida Grande</family>
+         <pointsize>21</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;
+background-color:transparent;</string>
+       </property>
+       <property name="text">
+        <string>Select the item with missing data that you want to delete</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="row_remove_mv_btn">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>160</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string>Row</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="full_null_radiobtn">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>100</y>
+         <width>361</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
+       <property name="text">
+        <string>Entirely NULL Row/Column</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>371</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Lucida Grande</family>
+         <pointsize>29</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>ArrowCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border:1px solid rgba(80,80,80,0.5);
+border-radius:20px;
+background-color:rgba(20,20,20,255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="cancel_remove_mv_btn">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>220</y>
+         <width>371</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid rgba(230,0,0,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:rgba(240,0,0,0.5);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+      <zorder>label_8</zorder>
+      <zorder>label_6</zorder>
+      <zorder>done_remove_mv_btn</zorder>
+      <zorder>column_remove_mv_btn</zorder>
+      <zorder>label_7</zorder>
+      <zorder>row_remove_mv_btn</zorder>
+      <zorder>full_null_radiobtn</zorder>
+      <zorder>cancel_remove_mv_btn</zorder>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>60</y>
+       <width>231</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="text">
+      <string>Duplicate values</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="remove_dup_btn">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>140</y>
+       <width>391</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>.Lucida Grande UI</family>
+       <pointsize>23</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Remove duplicates</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>35</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="show_in_table_btn">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>230</y>
+       <width>371</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>.Lucida Grande UI</family>
+       <pointsize>23</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="toolTipDuration">
+      <number>3</number>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View duplicates</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>35</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>110</y>
+       <width>431</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>29</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px transparent;
+border-radius:20px;
+background-color:rgba(20,20,20,255);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="overview_table_widget">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>340</y>
+       <width>431</width>
+       <height>341</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">/* QTableWidget için Dark Theme */
+
+QTableWidget {
+    background-color:rgba(20,20,20,255);;   /* Arka plan rengi: Koyu gri */
+    color: #f0f0f0;              /* Metin rengi: Beyaz */
+    gridline-color: #3e3e3e;     /* Hücre ızgara çizgileri: Orta gri */
+    border: 1px solid #3e3e3e;   /* Dış sınır: Orta gri */
+	border-radius:15px;
+}
+
+QHeaderView::section {
+    background-color: #3e3e3e;   /* Başlık arka plan rengi: Orta gri */
+    color: #f0f0f0;              /* Başlık metin rengi: Beyaz */
+    padding: 4px;
+    border: 1px solid #2b2b2b;   /* Başlık kenarlık rengi: Koyu gri */
+}
+
+QTableWidget::item {
+    selection-background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */
+    selection-color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */
+}
+
+QTableWidget::item:selected {
+    background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */
+    color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */
+	border:1px solid yellow;
+}
+QTableCornerButton::section {
+    background-color: #2b2b2b; /* Rengi koyu gri olarak değiştir */
+    border: 1px solid #3e3e3e; /* Kenarlık rengi orta gri */
+}
+
+QScrollBar:vertical {
+    background-color: #2b2b2b; /* Dikey kaydırma çubuğu arka plan rengi: Koyu gri */
+    width: 15px;
+    margin: 0px 3px 0px 3px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #5a5a5a; /* Dikey kaydırma çubuğu tutamağı: Gri */
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background-color: #3e3e3e; /* Kaydırma çubuğu butonları: Orta gri */
+    height: 15px;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}</string>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="gridStyle">
+      <enum>Qt::SolidLine</enum>
+     </property>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+    </widget>
+    <zorder>label_9</zorder>
+    <zorder>label</zorder>
+    <zorder>label_2</zorder>
+    <zorder>general_overview_listwidget</zorder>
+    <zorder>label_4</zorder>
+    <zorder>missing_v_stacked</zorder>
+    <zorder>label_14</zorder>
+    <zorder>remove_dup_btn</zorder>
+    <zorder>show_in_table_btn</zorder>
+    <zorder>overview_table_widget</zorder>
+   </widget>
+   <widget class="QWidget" name="preprosessing_page">
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>390</y>
+       <width>241</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>390</y>
+       <width>491</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Custom SQL query for filtering data</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="prompt_done_btn">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>400</y>
+       <width>130</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>24</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid rgba(0,230,0,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:rgba(0,230,0,0.5);
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Done</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="prompt_reset_btn">
+     <property name="geometry">
+      <rect>
+       <x>720</x>
+       <y>400</y>
+       <width>130</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>24</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid rgba(230,0,0,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:rgba(240,0,0,0.5);
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Reset</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="promp_back_btn">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>400</y>
+       <width>130</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>24</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	border:1px solid rgba(80,80,80,0.5);
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:white;
+}
+QPushButton:hover{
+	border:1px solid yellow;
+	border-radius:15px;
+	background-color:rgba(20,20,20,255);
+	color:yellow;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Back</string>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="sql_query_area_stacked_widget">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>440</y>
+       <width>961</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <widget class="QPlainTextEdit" name="sql_text_area">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>931</width>
+         <height>261</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>19</pointsize>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPlainTextEdit {
+	border:1px transparent;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+	color:white;
+	padding-left:10; 
+	padding-top:10; 
+	padding-bottom:10; 
+	padding-right:10
+}
+</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="plainText">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Write an SQL query for your data..</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <widget class="QTableWidget" name="prompt_table_widget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>931</width>
+         <height>261</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">/* QTableWidget için Dark Theme */
+
+QTableWidget {
+    background-color:rgba(20,20,20,255);;   /* Arka plan rengi: Koyu gri */
+    color: #f0f0f0;              /* Metin rengi: Beyaz */
+    gridline-color: #3e3e3e;     /* Hücre ızgara çizgileri: Orta gri */
+    border: 1px solid #3e3e3e;   /* Dış sınır: Orta gri */
+	border-radius:15px;
+}
+
+QHeaderView::section {
+    background-color: #3e3e3e;   /* Başlık arka plan rengi: Orta gri */
+    color: #f0f0f0;              /* Başlık metin rengi: Beyaz */
+    padding: 4px;
+    border: 1px solid #2b2b2b;   /* Başlık kenarlık rengi: Koyu gri */
+}
+
+QTableWidget::item {
+    selection-background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */
+    selection-color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */
+}
+
+QTableWidget::item:selected {
+    background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */
+    color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */
+	border:1px solid yellow;
+}
+QTableCornerButton::section {
+    background-color: #2b2b2b; /* Rengi koyu gri olarak değiştir */
+    border: 1px solid #3e3e3e; /* Kenarlık rengi orta gri */
+}
+
+QScrollBar:vertical {
+    background-color: #2b2b2b; /* Dikey kaydırma çubuğu arka plan rengi: Koyu gri */
+    width: 15px;
+    margin: 0px 3px 0px 3px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #5a5a5a; /* Dikey kaydırma çubuğu tutamağı: Gri */
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background-color: #3e3e3e; /* Kaydırma çubuğu butonları: Orta gri */
+    height: 15px;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}</string>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="gridStyle">
+        <enum>Qt::SolidLine</enum>
+       </property>
+       <attribute name="horizontalHeaderCascadingSectionResizes">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderCascadingSectionResizes">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderStretchLastSection">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="pre_pros_chart_area">
+     <property name="geometry">
+      <rect>
+       <x>500</x>
+       <y>20</y>
+       <width>501</width>
+       <height>361</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	
+color:rgba(255,255,255,0.5);</string>
+     </property>
+     <property name="text">
+      <string>There is no plotted chart!</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>20</y>
+       <width>421</width>
+       <height>361</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="dataset_cb">
+     <property name="geometry">
+      <rect>
+       <x>273</x>
+       <y>50</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QComboBox:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+                            }
+        QComboBox::down-arrow { width: 0px; image: url(:None); }
+        QComboBox::drop-down { border: none; background:none;}
+        
+    QComboBox QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+        
+        
+    QComboBox::item {
+        min-height: 35px;
+        min-width: 50px;
+        outline: none;
+    }
+    QComboBox::item:selected{
+        color: black;
+        background-color: lightgray;
+    }       
+     </string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Filtered data</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>40</y>
+       <width>171</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>22</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Dataset:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_16">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>90</y>
+       <width>171</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>22</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>X-Axis:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="x_axis_cb">
+     <property name="geometry">
+      <rect>
+       <x>273</x>
+       <y>100</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QComboBox:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+                            }
+        QComboBox::down-arrow { width: 0px; image: url(:None); }
+        QComboBox::drop-down { border: none; background:none;}
+        
+    QComboBox QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+        
+        
+    QComboBox::item {
+        min-height: 35px;
+        min-width: 50px;
+        outline: none;
+    }
+    QComboBox::item:selected{
+        color: black;
+        background-color: lightgray;
+    }       
+     </string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>x axis</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_17">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>140</y>
+       <width>171</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>22</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Y-Axis</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="y_axis_cb">
+     <property name="geometry">
+      <rect>
+       <x>273</x>
+       <y>150</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QComboBox:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+                            }
+        QComboBox::down-arrow { width: 0px; image: url(:None); }
+        QComboBox::drop-down { border: none; background:none;}
+        
+    QComboBox QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+        
+        
+    QComboBox::item {
+        min-height: 35px;
+        min-width: 50px;
+        outline: none;
+    }
+    QComboBox::item:selected{
+        color: black;
+        background-color: lightgray;
+    }       
+     </string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>y axis</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>190</y>
+       <width>171</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>22</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Chart type:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="chart_type_cb">
+     <property name="geometry">
+      <rect>
+       <x>273</x>
+       <y>200</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QComboBox:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+                            }
+        QComboBox::down-arrow { width: 0px; image: url(:None); }
+        QComboBox::drop-down { border: none; background:none;}
+        
+    QComboBox QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+        
+        
+    QComboBox::item {
+        min-height: 35px;
+        min-width: 50px;
+        outline: none;
+    }
+    QComboBox::item:selected{
+        color: black;
+        background-color: lightgray;
+    }       
+     </string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Line chart</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Bar chart</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Scatter plot</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Histogram</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Box plot</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Pie chart</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QCheckBox" name="show_gridline_checkBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>260</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QCheckBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QCheckBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QCheckBox:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+ }
+       
+    QCheckBox QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+        
+ 
+     </string>
+     </property>
+     <property name="text">
+      <string>Show gridlines</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="chart_color_btn">
+     <property name="geometry">
+      <rect>
+       <x>272</x>
+       <y>260</y>
+       <width>191</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QPushButton:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+                            }
+
+    QPushButton QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+</string>
+     </property>
+     <property name="text">
+      <string>Choos chart color</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="plot_chart_btn">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>320</y>
+       <width>371</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 14px;
+            padding-left:16px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QPushButton:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+                            }
+
+    QPushButton QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+</string>
+     </property>
+     <property name="text">
+      <string>Plot chart</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="transformation_page">
+    <widget class="QLabel" name="label_20">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>411</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Data Scaling &amp; Normalization</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_24">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>90</y>
+       <width>421</width>
+       <height>311</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="z_score_radio_btn">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>170</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QRadioButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QRadioButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>   Z-score normalization</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="min_max_radio_btn">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>230</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QRadioButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QRadioButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>   Min-max scaling</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="minvalue_lineedit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>290</y>
+       <width>181</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>IBeamCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QLineEdit:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Min value</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="maxvalue_lineedit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>290</y>
+       <width>181</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>IBeamCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QLineEdit:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Max value</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="scaling_column_box">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>110</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Column 1</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="scaling_apply_btn">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>340</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Apply scaling</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_25">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>480</y>
+       <width>421</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="add_rempve_column_btn">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>620</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:10px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Add &amp;&amp; Remove column</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="add_and_remove_row_btn">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>560</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:10px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Add &amp;&amp; Remove row</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_26">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>90</y>
+       <width>421</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="merge_columns_btn">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>500</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:10px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Merge Columns</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_21">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>430</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Data Enhancement</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>40</y>
+       <width>401</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Change Columns Data Type</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_27">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>110</y>
+       <width>401</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	border:1px solid gray;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_23">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>130</y>
+       <width>221</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(229, 229, 229);
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Select Column </string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="change_dt_select_column">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>170</y>
+       <width>351</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 16px;
+            padding-left:20px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Column 1</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_28">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>250</y>
+       <width>221</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(229, 229, 229);
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Select New Data Type</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="select_new_data_type">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>290</y>
+       <width>351</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 16px;
+            padding-left:20px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Integer</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Float</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>String</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Boolean</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Date</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_29">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>230</y>
+       <width>401</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	border:1px solid gray;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="data_type_apply_changes">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>360</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:rgba(80,80,80,0.5);
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}
+QPushButton:checked{
+	background-color:red;
+	color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Apply changes </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_31">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>430</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Summary of changes</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="summary_of_changes_listwidget">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>481</y>
+       <width>421</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>26</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">/* QTableWidget için Dark Theme */
+
+QListWidget {
+    background-color:rgba(20,20,20,255);;   /* Arka plan rengi: Koyu gri */
+                  /* Metin rengi: Beyaz */
+	color: rgb(210, 210, 210);
+	padding:20px;
+    gridline-color: #3e3e3e;     /* Hücre ızgara çizgileri: Orta gri */
+    border: 1px solid #3e3e3e;   /* Dış sınır: Orta gri */
+	border-radius:15px;
+}
+
+QHeaderView::section {
+    background-color: #3e3e3e;   
+    color: #f0f0f0;         
+    padding: 4px;
+    border: 1px solid #2b2b2b;   /* Başlık kenarlık rengi: Koyu gri */
+}
+
+QListWidget::item {
+    selection-background-color: #444444; /* Seçili öğe arka plan rengi: Koyu gri */
+    selection-color: #ffffff;            /* Seçili öğe metin rengi: Beyaz */
+}
+
+QListWidget::item:selected {
+    background-color: transparent; 
+    color: #ffffff;
+	border:1px solid rgba(162, 31, 188,0.5);
+	border-radius:10px;
+}
+
+
+QScrollBar:vertical {
+    background-color: #2b2b2b; 
+    width: 15px;
+    margin: 0px 3px 0px 3px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #5a5a5a; 
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background-color: #3e3e3e; 
+    height: 15px;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>No changes is there!</string>
+      </property>
+     </item>
+    </widget>
+    <zorder>label_26</zorder>
+    <zorder>label_29</zorder>
+    <zorder>label_24</zorder>
+    <zorder>label_20</zorder>
+    <zorder>z_score_radio_btn</zorder>
+    <zorder>min_max_radio_btn</zorder>
+    <zorder>minvalue_lineedit</zorder>
+    <zorder>maxvalue_lineedit</zorder>
+    <zorder>scaling_column_box</zorder>
+    <zorder>scaling_apply_btn</zorder>
+    <zorder>label_25</zorder>
+    <zorder>add_rempve_column_btn</zorder>
+    <zorder>add_and_remove_row_btn</zorder>
+    <zorder>merge_columns_btn</zorder>
+    <zorder>label_21</zorder>
+    <zorder>label_22</zorder>
+    <zorder>label_27</zorder>
+    <zorder>label_23</zorder>
+    <zorder>change_dt_select_column</zorder>
+    <zorder>label_28</zorder>
+    <zorder>select_new_data_type</zorder>
+    <zorder>data_type_apply_changes</zorder>
+    <zorder>label_31</zorder>
+    <zorder>summary_of_changes_listwidget</zorder>
+   </widget>
+   <widget class="QWidget" name="statistics_page">
+    <widget class="QLabel" name="pixmap_plot_area">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>290</y>
+       <width>1011</width>
+       <height>421</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_32">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>230</y>
+       <width>401</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Pixmap Plot Area </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_33">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>1021</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="frequency_btn">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>90</y>
+       <width>320</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Frequency Distribution</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="correlation_btn">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>90</y>
+       <width>320</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Correlation Matrix</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="outliers_btn">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>90</y>
+       <width>320</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Outliers Dedection</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_34">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>401</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>27</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Statistical Analysis Tools</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="value_counts_btn">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>150</y>
+       <width>320</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Value Counts</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="histograms_btn">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>150</y>
+       <width>320</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Histograms</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="distribution_btn">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>150</y>
+       <width>320</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Distribution Plot</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="finalization_page">
+    <widget class="QLabel" name="label_35">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>1001</width>
+       <height>641</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px red;
+border-radius:20px;
+background-color:rgba(20,20,20,255);	</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="file_extension_combobox">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>160</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>.csv</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>.xlx</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>.xlsx</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>.json</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>.xml</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>.txt</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="browse_files_btn">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>220</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_36">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>130</y>
+       <width>491</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	border:1px solid gray;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="file_name_lineedit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>160</y>
+       <width>301</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>IBeamCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QLineEdit:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="maxLength">
+      <number>200</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>File name</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="file_root_info_label">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>220</y>
+       <width>301</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	color:rgba(80,80,80,0.9);
+	border:1px solid rgba(80, 80, 80,0.5);
+	border-radius:20px;
+	font:20px;
+	background-color:rgba(20,20,20,255);	
+}
+</string>
+     </property>
+     <property name="text">
+      <string>/Desktop</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="csv_delimiter_combobox">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>360</y>
+       <width>451</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Comma ( , )</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Semicolon ( ; )</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tab ( / )</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Pipe ( | )</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_38">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>320</y>
+       <width>441</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Lucida Grande</family>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:gray;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>*Choose CSV Delimiter</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="customize_excel_options_btn">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>420</y>
+       <width>451</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Customize Excel Options (.xlx/.xlxs)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_39">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>70</y>
+       <width>491</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Export options</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="create_report_checkbox">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>520</y>
+       <width>451</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QCheckBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:15px;
+        }
+        
+        QCheckBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }
+        
+        QCheckBox:focus {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(61, 68, 73),
+                            stop:1 rgb(39, 44, 48));
+
+ }
+       
+    QCheckBox QAbstractItemView {
+        border:0px;
+        background-color: #31363A;
+    }
+        
+ 
+     </string>
+     </property>
+     <property name="text">
+      <string>  Create Report File</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="export_final_btn">
+     <property name="geometry">
+      <rect>
+       <x>339</x>
+       <y>580</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	       
+		background-color: rgba(33, 225, 36,0.5);
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+QPushButton:hover{
+	       
+		background-color: rgba(33, 225, 36,0.2);
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+</string>
+     </property>
+     <property name="text">
+      <string>EXPORT</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="export_reset_btn">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>580</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+		
+	background-color: rgba(231, 55, 34,0.2);
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+QPushButton:hover {
+		
+	background-color: rgba(221, 65, 34,0.5);
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        </string>
+     </property>
+     <property name="text">
+      <string>RESET</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>480</y>
+       <width>471</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_7">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>290</y>
+       <width>471</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_40">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>130</y>
+       <width>401</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	border:1px solid gray;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="open_recent_files_combobox">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>200</y>
+       <width>361</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+            padding-left:20px;
+        }
+        
+        QComboBox:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAtBottom</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>untitled.csv</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_41">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>150</y>
+       <width>301</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+font:20px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Open Recent Files</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="save_file_btn">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>300</y>
+       <width>361</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Save file</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="undo_last_changes_btn">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>360</y>
+       <width>361</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+           background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0.8,
+                            stop:0 rgb(71, 78, 83),
+                            stop:1 rgb(49, 54, 58));
+            border: 1px solid gray;
+            border-radius: 7px;
+            color: #f2f2f2;
+            font-size: 20px;
+        }
+        
+        QPushButton:hover {
+           background-color: qlineargradient(x1:0, y1:0, x2:1,  y2:0.8,
+                            stop:0 rgb(66, 73, 78),
+                            stop:1 rgb(54, 49, 53));
+
+
+        }</string>
+     </property>
+     <property name="text">
+      <string>Undo Last changes</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_44">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>70</y>
+       <width>491</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Other options</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="Line" name="line_8">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>260</y>
+       <width>381</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="last_file_info_listwidget">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>520</y>
+       <width>381</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>23</pointsize>
+      </font>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QListWidget {
+	color:white;
+	background-color:transparent;
+	outline:0;
+	border:1px gray;
+}
+QListWidget::item {
+	color:gray;
+	background-color:transparent;
+ 	margin: 3px;
+	border:1px transparent;
+}
+QListWidget::item:selected{
+	background-color:transparent;
+	color:white;
+	border:1px solid #808080;
+}
+
+
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Row count : 1234567</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Column count : 12345678</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>File size : 100 gb</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_42">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>500</y>
+       <width>401</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	border:1px solid gray;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_43">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>450</y>
+       <width>401</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Last File Summary</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <zorder>label_35</zorder>
+    <zorder>label_42</zorder>
+    <zorder>label_36</zorder>
+    <zorder>file_extension_combobox</zorder>
+    <zorder>browse_files_btn</zorder>
+    <zorder>file_name_lineedit</zorder>
+    <zorder>file_root_info_label</zorder>
+    <zorder>csv_delimiter_combobox</zorder>
+    <zorder>label_38</zorder>
+    <zorder>customize_excel_options_btn</zorder>
+    <zorder>label_39</zorder>
+    <zorder>create_report_checkbox</zorder>
+    <zorder>export_final_btn</zorder>
+    <zorder>export_reset_btn</zorder>
+    <zorder>line</zorder>
+    <zorder>line_7</zorder>
+    <zorder>label_40</zorder>
+    <zorder>open_recent_files_combobox</zorder>
+    <zorder>label_41</zorder>
+    <zorder>save_file_btn</zorder>
+    <zorder>undo_last_changes_btn</zorder>
+    <zorder>label_44</zorder>
+    <zorder>line_8</zorder>
+    <zorder>last_file_info_listwidget</zorder>
+    <zorder>label_43</zorder>
+   </widget>
+   <widget class="QWidget" name="settings_page">
+    <widget class="QLabel" name="label_45">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>1001</width>
+       <height>641</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	border:2px red;
+	border-radius:20px;
+	background-color:rgba(20,20,20,255);	
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_46">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>140</y>
+       <width>231</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgba(255,255,255,0.9);
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>App Version</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="app_version_info_label">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>180</y>
+       <width>231</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:gray;
+font:25px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>v1.0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_48">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>260</y>
+       <width>271</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgba(255,255,255,0.9);
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Support or Contact</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="support_info_label">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>300</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:gray;
+font:25px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>infopurelyzer@gmail.com</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="github_info_label">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>420</y>
+       <width>391</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:gray;
+font:25px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>github.com/gcosx-js/purelyzer-app</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_51">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>380</y>
+       <width>271</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgba(255,255,255,0.9);
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Github</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="developer_info_label">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>540</y>
+       <width>391</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:gray;
+font:25px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Elmir Guliyev</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_53">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>500</y>
+       <width>351</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Elmir"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgba(255,255,255,0.9);
+font:30px;
+background-color:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>Developing and Desing</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="privacy_policy_btn">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>210</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	font:25px;
+	color: rgb(167, 104, 224);
+	background-color:transparent;
+	border:1px solid rgb(216, 106, 195);
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Privacy &amp;&amp; Policy</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="auto_backup_btn">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>150</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;asdasdasd&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	font:25px;
+	color:rgba(255,0,0,0.7);
+	border:1px solid rgba(255,0,0,0.7);
+}
+
+
+</string>
+     </property>
+     <property name="text">
+      <string>Auto Backup : off</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="overview_btn">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>110</y>
+     <width>301</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.Lucida Grande UI</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color:transparent;
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>  Data Overview  </string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons_rc.qrc">
+     <normaloff>:/menu/icons/overview.png</normaloff>:/menu/icons/overview.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="preprosessing_btn">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>210</y>
+     <width>301</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.Lucida Grande UI</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color:transparent;
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>  Preprosessing   </string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons_rc.qrc">
+     <normaloff>:/menu/icons/filter.png</normaloff>:/menu/icons/filter.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="tranformation_btn">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>310</y>
+     <width>301</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.Lucida Grande UI</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color:transparent;
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>  Transformation </string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons_rc.qrc">
+     <normaloff>:/menu/icons/scale.png</normaloff>:/menu/icons/scale.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="statistics_btn">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>410</y>
+     <width>301</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.Lucida Grande UI</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color:transparent;
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>  Statistics          </string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons_rc.qrc">
+     <normaloff>:/menu/icons/statistics.png</normaloff>:/menu/icons/statistics.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="settings_btn">
+   <property name="geometry">
+    <rect>
+     <x>-30</x>
+     <y>660</y>
+     <width>301</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.Lucida Grande UI</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color:transparent;
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>  Settings      </string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons_rc.qrc">
+     <normaloff>:/menu/icons/settings.png</normaloff>:/menu/icons/settings.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="finalization_btn">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>510</y>
+     <width>301</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.Lucida Grande UI</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color:transparent;
+	color:white;
+	border-color:1px transparent ;
+	border-radius:20px;
+}
+QPushButton:hover{
+	background-color:rgba(30,30,30,240);
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>  Finalization      </string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons_rc.qrc">
+     <normaloff>:/menu/icons/export.png</normaloff>:/menu/icons/export.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="Line" name="orta_xett">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>625</y>
+     <width>251</width>
+     <height>1</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgba(255,255,255,0.5)</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_1">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>110</y>
+     <width>10</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;
+border-color:transparent;
+border-radius:5px;</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>210</y>
+     <width>10</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;
+colo:white;
+border-color:transparent;
+border-radius:5px;</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_3">
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>310</y>
+     <width>10</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;
+colo:white;
+border-color:transparent;
+border-radius:5px;</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_4">
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>410</y>
+     <width>10</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;
+colo:white;
+border-color:transparent;
+border-radius:5px;</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_5">
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>510</y>
+     <width>10</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;
+colo:white;
+border-color:transparent;
+border-radius:5px;</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_6">
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>660</y>
+     <width>10</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;
+colo:white;
+border-color:transparent;
+border-radius:5px;</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="purelyzer_logo">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>40</y>
+     <width>251</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="icons_rc.qrc">:/logo/logo-no-background.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icons_rc.qrc"/>
+  <include location="icons_rc.qrc"/>
+ </resources>
+ <connections/>
+</ui>
