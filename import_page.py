@@ -122,10 +122,17 @@ class ImportPage_UI(QWidget):
                                            self.browsed_file_path.endswith('.xlsx')):
             base_path=os.path.basename(self.browsed_file_path)
             for i in self.manager.fetch_data_list():
-                if i[0]==base_path:
-                    self.finish_with_recent(opt=base_path)
-                    break
-            self.browse_file_btn.setText(base_path)
+                if os.path.basename(i[0])==base_path:
+                    if i[0]==self.browsed_file_path:
+                        self.finish_with_recent(opt=base_path)
+                        self.browse_file_btn.setText(base_path)
+                        break
+                    else:
+                        f.fmessagebox(f'You have a saved dataset named with "{base_path}". Please change your dataset name or choose a saved one!')
+                        self.browsed_file_path=None
+                        break
+                    
+            
         else:
             QMessageBox.warning(self,'Error','Please choose a file for import!')
          
@@ -153,6 +160,11 @@ class ImportPage_UI(QWidget):
                     
                 else:
                     self.recent_datasets_combo.setCurrentIndex(0)
+            
+            
+            
+            
+            
         elif opt and opt!=1:
             resp=f.fmessagebox(f'{opt} has import options in database, click "YES" for use. Else, click "NO" for replace with your new import options!',
                                     'Confirmation',
@@ -168,14 +180,18 @@ class ImportPage_UI(QWidget):
                 self.new_ui=PurelyzerApp()   
                 self.new_ui.show()
                 self.close()
-                
+        
+        
+                    
                 
             
                 
     
     def finish_with_options(self):
         try:
-                self.browsed_file_path
+            if self.browsed_file_path==None:
+                raise TypeError
+                
         except Exception as e:
                 QMessageBox.warning(self,'Error','Please choose a file for import!')
         else:

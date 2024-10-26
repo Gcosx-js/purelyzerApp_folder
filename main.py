@@ -1,12 +1,14 @@
 #Elmir Guliyev | github.com/gcosx-js
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QFont
+from PyQt5.QtCore import QThread,pyqtSignal
 from purelyzer_ui import Ui_Form
 import pandas as pd
 import funcs as f
 import binary as bin
 import logging,os,sys,pickle
 import datetime
+import threading 
 
 class PurelyzerApp(QWidget):
     def __init__(self) -> None:
@@ -14,15 +16,10 @@ class PurelyzerApp(QWidget):
             self.app = Ui_Form()
             self.app.setupUi(self)
             self.auto_save_bool = True
-            
-            with open("data.pkl", "rb") as file:
-                self.dataset_options_main =pickle.load(file)
             self.bin_manager = bin.BinaryFileManager()
             
-            self.dataset_path=self.dataset_options_main[0]
-            self.log_path =f'log_files/{os.path.basename(self.dataset_path).split('.')[0]}_save.log'
-            self.dataset = f.open_dataset_with_options(self.dataset_options_main)
-            
+            self.load_dataset_thread()
+            self.load_to_table(dataset_lo=self.dataset)
             '''
             self.dataset_path = 'AirQualityUCI.csv'
             self.log_path =f'{os.path.basename(self.dataset_path).split('.')[0]}_save.log'
@@ -36,13 +33,21 @@ class PurelyzerApp(QWidget):
 
             self.app.done_remove_mv_btn.clicked.connect(self.remove_mv_donebtn)
             self.refresh_overview_datas()
-            self.load_to_table(dataset_lo=self.dataset)
+            
             self.app.fill_mv_done_btn.clicked.connect(self.fill_mv_doneBTN_clicked)
 
     
 
             
     def refresh_overview_datas(self):
+            '''
+            try:
+                print(self.dataset.shape[0])
+            except:
+                f.fmessagebox('Your data set must be in [ ROW x COLUMN ] format')
+                self.bin_manager.remove_line(row=(len(self.bin_manager.fetch_data_list())-1))
+                self.close()
+            '''
             overview_list_items=[f'Row count : {self.dataset.shape[0]}',
                                  f'Column count : {self.dataset.shape[1]}',
                                  f'Missing values count : {self.dataset.isnull().sum().sum()}',
@@ -53,6 +58,23 @@ class PurelyzerApp(QWidget):
                 self.app.general_overview_listwidget.insertItem(i,QListWidgetItem(overview_list_items[i]))
             self.load_to_table(dataset_lo=self.dataset)
             
+            
+    def load_dataset_thread(self):
+            self.load_thread = QThread()
+            def load_dataset_thread2():
+                    with open("data.pkl", "rb") as file:
+                        self.dataset_options_main =pickle.load(file)
+
+                    self.dataset_path=self.dataset_options_main[0]
+                    self.log_path =f'log_files/{os.path.basename(self.dataset_path).split('.')[0]}_save.log'
+                    self.dataset = f.open_dataset_with_options(self.dataset_options_main)
+                    self.load_thread.quit()
+                
+            self.load_thread.run = load_dataset_thread2
+            self.load_thread.start()
+            self.load_thread.wait()
+            return
+                
     def remove_mv_donebtn(self):
         logging.info('"Remove missing values" button clicked!')
         if self.app.full_null_radiobtn.isChecked():
@@ -126,33 +148,37 @@ class PurelyzerApp(QWidget):
                 logging.info('Close Event Ingored!')
             else:
                 event.ignore()
-                
-    def load_to_table(self, dataset_lo=pd.DataFrame):
+    
+    
+    
+    def load_to_table(self,dataset_lo=pd.DataFrame):
+        threading.Thread(target=self._load_data, args=(dataset_lo,)).start()  
+    def _load_data(self, dataset_lo):
+        self.app.overview_table_widget.clearContents() 
         self.app.overview_table_widget.setColumnCount(len(dataset_lo.columns) + 1)
         self.app.overview_table_widget.setRowCount(len(dataset_lo.index))
         self.app.overview_table_widget.setHorizontalHeaderLabels(['ID'] + list(dataset_lo.columns))
         self.app.overview_table_widget.resizeRowsToContents()
         header = self.app.overview_table_widget.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
-        # Yazı tipini tanımlıyoruz
         font = QFont()
-        font.setPointSize(15)  # Yazı boyutunu 15 yapıyoruz
-        font.setBold(True)  # Yazı tipini kalın yapıyoruz
+        font.setPointSize(15)
+        font.setBold(True)
         
-        # Sütun genişliklerini içeriklere göre ayarla
-        self.app.overview_table_widget.resizeColumnsToContents()
+        
+        
         
         for i in range(len(dataset_lo.index)):
-            # ID sütunu için item oluşturma ve font ayarlama
             id_item = QTableWidgetItem(str(dataset_lo.index[i]))
-            id_item.setFont(font)  # Font ayarını uyguluyoruz
+            id_item.setFont(font)
             self.app.overview_table_widget.setItem(i, 0, id_item)
             
             for j in range(len(dataset_lo.columns)):
-                # Her hücre için item oluşturma ve font ayarlama
                 item = QTableWidgetItem(str(dataset_lo.iat[i, j]))
-                item.setFont(font)  # Font ayarını uyguluyoruz
+                item.setFont(font)
                 self.app.overview_table_widget.setItem(i, j + 1, item)
+                
+        self.app.overview_table_widget.resizeColumnsToContents()
         
             
                    

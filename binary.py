@@ -29,6 +29,10 @@ class BinaryFileManager():
     def add_data(self, text=[]):
         binary_content = self.loader_bin()
         if text not in binary_content:
+            for i in binary_content:
+                if os.path.basename(text[0])==os.path.basename(i[0]):
+                    binary_content.remove(i)
+            
             binary_content.append(text)
             with open(self.file, 'wb') as f:
                 pickle.dump(binary_content, f)
@@ -48,6 +52,7 @@ class BinaryFileManager():
             return None
 
 t = BinaryFileManager()
+
 '''
 t.add_data(['AirQualityUCI.csv',
         'CSV',
