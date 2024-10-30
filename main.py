@@ -25,12 +25,13 @@ class PurelyzerApp(QWidget):
             self.log_path =f'{os.path.basename(self.dataset_path).split('.')[0]}_save.log'
             self.dataset = pd.read_csv(self.dataset_path,sep=';',usecols=range(15))
             '''
-            
+            #Log tutma alani
             logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s',
                         filename=self.log_path,
                         filemode='w')
-
+            
+            #Doldurma ve silme butonlarinin baglantilari
             self.app.done_remove_mv_btn.clicked.connect(self.remove_mv_donebtn)
             self.refresh_overview_datas()
             
@@ -133,7 +134,7 @@ class PurelyzerApp(QWidget):
     
     def closeEvent(self,event):
         logging.info('Close Event Triggered!')
-        if self.auto_save_bool:
+        if not self.auto_save_bool:
             resp=f.fmessagebox(f'You have unsaved dataset : "{os.path.basename(self.dataset_path)}". Are you sure you want to exit without export?',
                                'Confirmation',
                                QMessageBox.Question,
@@ -148,9 +149,11 @@ class PurelyzerApp(QWidget):
                 logging.info('Close Event Ingored!')
             else:
                 event.ignore()
+        else:
+            event.accept()
+            logging.info(f'"Pureleyzer" Closed!')
     
-    
-    
+        #Thread istifade ederek eyni zamanda loading prosesi
     def load_to_table(self,dataset_lo=pd.DataFrame):
         threading.Thread(target=self._load_data, args=(dataset_lo,)).start()  
     def _load_data(self, dataset_lo):
@@ -191,23 +194,36 @@ class PurelyzerApp(QWidget):
                                QMessageBox.Yes|QMessageBox.No)
         if resp==QMessageBox.Yes:
             if self.app.median_radiobtn.isChecked():
-                f.fill_mv_func(self.dataset,1)
-                self.refresh_overview_datas()
-                logging.info('Fill with MEDIAN has used successfully!')
-            elif self.app.average_radiobtn.isChecked():
-                f.fill_mv_func(self.dataset,2)
-                self.refresh_overview_datas()
-                logging.info('Fill with AVERAGE has used successfully!')
-            elif self.app.mod_radiobtn.isChecked():
-                f.fill_mv_func(self.dataset,3)
-                self.refresh_overview_datas()
-                logging.info('Fill with MOD has used successfully!')
+                try:
+                    f.fill_mv_func(self.dataset,1)
+                    self.refresh_overview_datas()
+                    logging.info('Fill with MEDIAN has used successfully!')
+                except UserWarning:
+                    f.fmessagebox('No missing value found!')
                 
+            elif self.app.average_radiobtn.isChecked():
+                try:
+                    f.fill_mv_func(self.dataset,2)
+                    self.refresh_overview_datas()
+                    logging.info('Fill with AVERAGE has used successfully!')
+                except UserWarning:
+                    f.fmessagebox('No missing value found!')
+            elif self.app.mod_radiobtn.isChecked():
+                
+                try:
+                    f.fill_mv_func(self.dataset,3)
+                    self.refresh_overview_datas()
+                    logging.info('Fill with MOD has used successfully!')
+                except UserWarning:
+                    f.fmessagebox('No missing value found!')
+                    
             elif self.app.sequential_radiobtn.isChecked():
-                f.fill_mv_func(self.dataset,4)
-                self.refresh_overview_datas()
-                logging.info('Fill with SEQUENTIAL has used successfully!')
-            
+                try:
+                    f.fill_mv_func(self.dataset,4)
+                    self.refresh_overview_datas()
+                    logging.info('Fill with SEQUENTIAL has used successfully!')
+                except UserWarning:
+                    f.fmessagebox('No missing value found!')
         else:
             f.radio_btn_unchecker(self.app.median_radiobtn)
             f.radio_btn_unchecker(self.app.average_radiobtn)

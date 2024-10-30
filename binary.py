@@ -1,6 +1,6 @@
 import pickle
 import os
-
+#Userin recent datasetlerinin saxladigi purelyzer.bin fayli
 class BinaryFileManager():
     def __init__(self, file_path='purelyzer.bin'):
         self.file=file_path
@@ -52,7 +52,9 @@ class BinaryFileManager():
             return None
 
 t = BinaryFileManager()
+print(t.fetch_data_list())
 
+#Example dataset elave etmek ucun
 '''
 t.add_data(['AirQualityUCI.csv',
         'CSV',

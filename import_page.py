@@ -136,21 +136,23 @@ class ImportPage_UI(QWidget):
         else:
             QMessageBox.warning(self,'Error','Please choose a file for import!')
          
-        
+    #User kohne datasetlerden istifade ederse
     def finish_with_recent(self,opt=False):
+        
         if type(opt)==int:
             
             if self.recent_datasets_combo.currentText() !='None':
+                
                 resp=f.fmessagebox(f'Do you want to import {self.recent_datasets_combo.currentText()} and also import options?',
                                     'Confirmation',
                                     QMessageBox.Question,
                                     QMessageBox.Yes|QMessageBox.No)
                 if resp==QMessageBox.Yes:
                     for i in self.manager.fetch_data_list():
-                        if i[0]==self.recent_datasets_combo.currentText():
+                        if os.path.basename(i[0])==self.recent_datasets_combo.currentText():
                             with open("data.pkl", "wb") as file:
                                 pickle.dump(i, file)
-                                print(i)
+                                
                             break
                     
                     self.new_ui=PurelyzerApp()   
@@ -186,7 +188,7 @@ class ImportPage_UI(QWidget):
                 
             
                 
-    
+    # Eger user recent dataset hissesinden deyilde ekrani doldurarsa
     def finish_with_options(self):
         try:
             if self.browsed_file_path==None:
@@ -200,6 +202,8 @@ class ImportPage_UI(QWidget):
                                     QMessageBox.Question,
                                     QMessageBox.Yes|QMessageBox.No)
             if resp==QMessageBox.Yes:
+                #Userin ekranda doldurdugu datalarin diger 
+                # sehifeye data.pkl fayli ile gonderilmesi
                 options_list=[
                             str(self.file_format_combo.currentText()),
                             str(self.delimiter_input.text()),

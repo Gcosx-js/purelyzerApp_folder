@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QMessageBox,QApplication,QRadioButton,QComboBox
 import sys,pandas as pd
 from PyQt5.QtGui import QFont
 from scipy import stats
-
+import warnings
 
 
 def fmessagebox(message, title="Information", icon=QMessageBox.Information, buttons=QMessageBox.Ok):
@@ -138,7 +138,7 @@ def ask_question_with_comboBox(options=list):
     return None
     
 
-
+#Problem
 def calculate_statistics(data,i):
     
     data[i] = pd.to_datetime(data[i], format='%d/%m/%Y', errors='coerce')
@@ -170,77 +170,122 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
     # 2 - Average(mean)
     # 3 - Mode
     # 4 - Sequential Forward Filling
-    match fill_method:
-        case 1:
-            
-            user_C_choice = ask_question_with_comboBox(list(dataset.columns))
-            if user_C_choice == 'All':
-                for i in dataset.columns:
-                    if i.lower()=='date':
-                        l_stats = calculate_statistics(dataset,i)
-                        if l_stats!=None:
-                            dataset[i].fillna(l_stats['median'],inplace=True)
-                    else:
-                        try:
-                            dataset[i].fillna(dataset[i].median(), inplace=True)
-                        except Exception as e:
-                            print('Error',e)
-                            continue
-            elif user_C_choice:
-                if user_C_choice.lower()=='date':
-                    l_stats = calculate_statistics(dataset,user_C_choice)
-                    dataset[user_C_choice].fillna(l_stats['median'], inplace=True)
-                else:
-                    dataset[user_C_choice].fillna(dataset[user_C_choice].median(), inplace=True)
+    
+    #############
+    # STATIK KOD#
+    #############
+    
+    try:
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always", UserWarning)  # UserWarning'leri yakala
+
+            match fill_method:
+                case 1:
+                    user_C_choice = ask_question_with_comboBox(list(dataset.columns))
+                    if user_C_choice == 'All':
+                        if dataset.isnull().values.any():
+                            print('All-a girdi')
+                            for i in dataset.columns:
+                                if i.lower() == 'date':
+                                    l_stats = calculate_statistics(dataset, i)
+                                    if l_stats is not None:
+                                        dataset[i].fillna(l_stats['median'], inplace=True)
+                                else:
+                                    try:
+                                        dataset[i].fillna(dataset[i].median(), inplace=True)
+                                    except Exception as e:
+                                        print('Case 1 Fill Error', e)
+                                        continue
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+
+                    elif user_C_choice:
+                        if dataset[user_C_choice].isnull().any():
+                            if user_C_choice.lower() == 'date':
+                                l_stats = calculate_statistics(dataset, user_C_choice)
+                                dataset[user_C_choice].fillna(l_stats['median'], inplace=True)
+                            else:
+                                dataset[user_C_choice].fillna(dataset[user_C_choice].median(), inplace=True)
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                case 2:
+                    user_C_choice = ask_question_with_comboBox(list(dataset.columns))
+                    if user_C_choice == 'All':
+                        if dataset.isnull().values.any():
+                            
+                            for i in dataset.columns:
+                                if i.lower() == 'date':
+                                    l_stats = calculate_statistics(dataset, i)
+                                    if l_stats is not None:
+                                        dataset[i].fillna(l_stats['mean'], inplace=True)
+                                else:
+                                    try:
+                                        dataset[i].fillna(dataset[i].mean(), inplace=True)
+                                    except Exception as e:
+                                        print('Case 2 Fill Error', e)
+                                        continue
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                            
+                    elif user_C_choice:
+                        if dataset[user_C_choice].isnull().any():
+                            if user_C_choice.lower() == 'date':
+                                l_stats = calculate_statistics(dataset, user_C_choice)
+                                dataset[user_C_choice].fillna(l_stats['mean'], inplace=True)
+                            else:
+                                dataset[user_C_choice].fillna(dataset[user_C_choice].mean(), inplace=True)
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                case 3:
+                    user_C_choice = ask_question_with_comboBox(list(dataset.columns))
+                    if user_C_choice == 'All':
+                        if dataset.isnull().values.any():
+                            for i in dataset.columns:
+                                if i.lower() == 'date':
+                                    l_stats = calculate_statistics(dataset, i)
+                                    if l_stats is not None:
+                                        dataset[i].fillna(l_stats['mode'], inplace=True)
+                                else:
+                                    try:
+                                        dataset[i].fillna(dataset[i].mode(), inplace=True)
+                                    except Exception as e:
+                                        print('Case 3 Fill Error', e)
+                                        continue
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                            
+                    elif user_C_choice:
+                        if dataset[user_C_choice].isnull().any():
+                            if user_C_choice.lower() == 'date':
+                                l_stats = calculate_statistics(dataset, user_C_choice)
+                                dataset[user_C_choice].fillna(l_stats['mode'], inplace=True)
+                            else:
+                                dataset[user_C_choice].fillna(dataset[user_C_choice].mode(), inplace=True)
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                case 4:
+                    user_C_choice = ask_question_with_comboBox(list(dataset.columns))
+                    if user_C_choice == 'All':
+                        if dataset.isnull().values.any():
+                            dataset.fillna(method='ffill', inplace=True)
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                    elif user_C_choice:
+                        if dataset[user_C_choice].isnull().any():
+                            dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                        else:
+                            warnings.warn("No missing values found", UserWarning)
+                case _:
+                    raise ValueError("Index value out of range!")
                 
-        case 2:
-            user_C_choice = ask_question_with_comboBox(list(dataset.columns))
-            if user_C_choice == 'All':
-                for i in dataset.columns:
-                    if i.lower()=='date':
-                        l_stats = calculate_statistics(dataset,i)
-                        if l_stats!=None:
-                            dataset[i].fillna(l_stats['mean'],inplace=True)
-                    else:
-                        try:
-                            dataset[i].fillna(dataset[i].mean(), inplace=True)
-                        except Exception as e:
-                            print('Error',e)
-                            continue
-            elif user_C_choice:
-                if user_C_choice.lower()=='date':
-                    l_stats = calculate_statistics(dataset,user_C_choice)
-                    dataset[user_C_choice].fillna(l_stats['mean'], inplace=True)
-                else:
-                    dataset[user_C_choice].fillna(dataset[user_C_choice].mean(), inplace=True)
-                
-        case 3:
-            user_C_choice = ask_question_with_comboBox(list(dataset.columns))
-            if user_C_choice == 'All':
-                for i in dataset.columns:
-                    if i.lower()=='date':
-                        l_stats = calculate_statistics(dataset,i)
-                        if l_stats!=None:
-                            dataset[i].fillna(l_stats['mode'],inplace=True)
-                    else:
-                        try:
-                            dataset[i].fillna(dataset[i].mode(), inplace=True)
-                        except Exception as e:
-                            print('Error',e)
-                            continue
-            elif user_C_choice:
-                if user_C_choice.lower()=='date':
-                    l_stats = calculate_statistics(dataset,user_C_choice)
-                    dataset[user_C_choice].fillna(l_stats['mode'], inplace=True)
-                else:
-                    dataset[user_C_choice].fillna(dataset[user_C_choice].mode(), inplace=True)
-                
-        case 4:
-            user_C_choice = ask_question_with_comboBox(list(dataset.columns))
-            if user_C_choice == 'All':
-                dataset.fillna(method='ffill', inplace=True)
-            elif user_C_choice:
-                dataset[user_C_choice].fillna(method='ffill', inplace=True)
-                
-        case _:
-            raise ValueError("Index value out of range!")
+            if any(issubclass(warning.category, UserWarning) for warning in w):
+                raise UserWarning("UserWarning: Missing values were expected but not found.")
+
+    except UserWarning as uw:
+        raise UserWarning
+
+    except Exception as e:
+        print("Yes2")
+        print("There is a filling problem:", e)
+        
+        
