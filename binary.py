@@ -52,7 +52,6 @@ class BinaryFileManager():
             return None
 
 t = BinaryFileManager()
-print(t.fetch_data_list())
 
 #Example dataset elave etmek ucun
 '''

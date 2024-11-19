@@ -41,7 +41,7 @@ class ImportPage_UI(QWidget):
                 color: white;
             }
         """)
-        self.file_format_label = QLabel("What is the file format?")
+        self.file_format_label =  QLabel("What is the file format?")
         self.file_format_combo = QComboBox()
         self.file_format_combo.addItems(["CSV", "Excel", "JSON"])
         self.delimiter_label = QLabel("What is the delimiter?")

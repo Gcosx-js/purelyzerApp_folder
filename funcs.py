@@ -3,7 +3,7 @@ import sys,pandas as pd
 from PyQt5.QtGui import QFont
 from scipy import stats
 import warnings
-
+from dateutil.parser import parse
 
 def fmessagebox(message, title="Information", icon=QMessageBox.Information, buttons=QMessageBox.Ok):
     if not QApplication.instance():
@@ -91,13 +91,22 @@ def open_dataset_with_options(options_list):
         else:
             raise ValueError('Unsupported file format!')
         for i in df.columns:
-            j=str(df[i][0])
+            if i.lower()=='id':
+                continue
+            j=str(df[i].dropna().iloc[0])
             if ',' in j:
                 if len(j.split(','))==2: #eger kesrdirse
                     df[i] = df[i].str.replace(',', '.', regex=False)
                     df[i] = pd.to_numeric(df[i],errors='coerce')
                     df[i]=df[i].astype(float)
                     
+            elif ('.' not in j) and (',' not in j) and j.lstrip('-').isdigit():
+                try:
+                    df[i] = df[i].str.replace(',', '.', regex=False)
+                except:
+                    pass
+                df[i] = pd.to_numeric(df[i],errors='coerce')
+                df[i]=df[i].astype(float)
                     
             
         return df
@@ -139,31 +148,112 @@ def ask_question_with_comboBox(options=list):
     
 
 #Problem
-def calculate_statistics(data,i):
-    
-    data[i] = pd.to_datetime(data[i], format='%d/%m/%Y', errors='coerce')
-    
-    numeric_dates = data[i].dropna().astype(int) // 10**9 
+def calculate_statistics(data, i):
+    formats = [
+        "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%Y%m%d",
+        "%m/%d/%Y %I:%M:%S %p", "%m/%d/%Y %I:%M %p", "%m/%d/%Y %H:%M:%S", "%m/%d/%Y %H:%M",
+        "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M",
+        "%H:%M:%S", "%H:%M", "%I:%M:%S %p", "%I:%M %p", "%m.%d.%Y", "%d.%m.%Y",
+        "%m.%d.%Y %H:%M:%S", "%m.%d.%Y %I:%M %p"
+    ]
+
+    for fmt in formats:
+        try:
+            data[i] = pd.to_datetime(data[i], format=fmt, errors='coerce')
+            break
+        except ValueError:
+            continue
+
+    # Eğer tarih dönüşümü başarısızsa tüm değerler NaT olacak
+    if data[i].isna().all():
+        print(f"No valid dates found for column: {i}")
+        return None
+
+    # Numeric timestamps (epoch) için işleme
+    numeric_dates = data[i].dropna().astype(int) // 10**9
 
     if not numeric_dates.empty:
         mean = numeric_dates.mean()
         median = numeric_dates.median()
-        mode = stats.mode(numeric_dates)[0]
-        
+        mode = stats.mode(numeric_dates, keepdims=True)[0][0]  # Tek değer al
         try:
-            t = {
+            result = {
                 'mean': pd.to_datetime(mean, unit='s').date(),
                 'median': pd.to_datetime(median, unit='s').date(),
-                'mode': pd.to_datetime(mode, unit='s').date()}
-            return t
+                'mode': pd.to_datetime(mode, unit='s').date()
+            }
+            return result
         except pd.errors.OutOfBoundsDatetime:
-            print(f"OutOfBoundsDatetime error : {i} ")
+            print(f"OutOfBoundsDatetime error in column: {i}")
 
     return None
 
+from datetime import datetime
+
+def validate_date(date):
+    date = str(date)
+    formats = [
+        "%m/%d/%Y", 
+        "%m-%d-%Y", 
+        "%Y/%m/%d", 
+        "%Y-%m-%d", 
+        "%d/%m/%Y", 
+        "%d-%m-%Y",
+        "%Y%m%d",
+    
+        "%m/%d/%Y %I:%M:%S %p",  
+        "%m/%d/%Y %I:%M %p",     
+        "%m/%d/%Y %H:%M:%S",     
+        "%m/%d/%Y %H:%M",        
+        "%Y-%m-%d %H:%M:%S",     
+        "%Y-%m-%d %H:%M",        
+        "%d/%m/%Y %H:%M:%S",     
+        
+        "%H:%M:%S",           
+        "%H:%M",                
+        "%I:%M:%S %p",          
+        "%I:%M %p",             
+    
+        "%m.%d.%Y",           
+        "%d.%m.%Y",              
+        "%m.%d.%Y %H:%M:%S",    
+        "%m.%d.%Y %I:%M %p",
+        ]
+    
+    
+    
+    
+    for fmt in formats:
+        try:
+            date_value = datetime.strptime(date, fmt)
+            return True
+        except ValueError:
+            continue
+    return False
 
 
+def convert_to_pandas_type(input_text):
+    try:
+        # Tarih veya saat olup olmadığını kontrol et
+        parsed = parse(input_text, fuzzy=False)
+        
+        # Sadece zaman varsa, timedelta formatında döndür
+        if parsed.date() == pd.Timestamp("today").date():
+            return pd.to_timedelta(f"{parsed.hour}:{parsed.minute}:{parsed.second}")
+        
+        # Hem tarih hem zaman varsa veya sadece tarih varsa, datetime formatında döndür
+        return pd.to_datetime(input_text)
+    
+    except ValueError:
+        return None
 
+def clean_time_strings(series):
+    try:
+        return series.str.replace('.', ':', regex=False)
+    except:
+        pass
+
+  
 def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
     # Fill method indexs:
     # 1 - Median
@@ -177,19 +267,25 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
     
     try:
         with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always", UserWarning)  # UserWarning'leri yakala
+            warnings.simplefilter("always", UserWarning)  # UserWarning'leri tut
 
             match fill_method:
                 case 1:
                     user_C_choice = ask_question_with_comboBox(list(dataset.columns))
                     if user_C_choice == 'All':
                         if dataset.isnull().values.any():
-                            print('All-a girdi')
                             for i in dataset.columns:
-                                if i.lower() == 'date':
-                                    l_stats = calculate_statistics(dataset, i)
-                                    if l_stats is not None:
-                                        dataset[i].fillna(l_stats['median'], inplace=True)
+                                if dataset[i].dropna().iloc[0] and validate_date(str(dataset[i].dropna().iloc[0])):
+                                    try:
+                                        dataset[i] = clean_time_strings(dataset[i])
+                                        dataset[i] = pd.to_datetime(dataset[i], errors='coerce')
+                                        l_stats = calculate_statistics(dataset, i)
+                                        if l_stats is not None:
+                                            dataset[i].fillna(l_stats['median'], inplace=True)
+                                            
+                                    except Exception as e:
+                                        print(f"Case 1 Fill Error in column {i}: {e}")
+                                        
                                 else:
                                     try:
                                         dataset[i].fillna(dataset[i].median(), inplace=True)
@@ -201,9 +297,12 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
 
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
-                            if user_C_choice.lower() == 'date':
-                                l_stats = calculate_statistics(dataset, user_C_choice)
-                                dataset[user_C_choice].fillna(l_stats['median'], inplace=True)
+                            if validate_date(str(dataset[user_C_choice].dropna().iloc[0])):
+                                dataset[i] = clean_time_strings(dataset[i])
+                                dataset[i] = pd.to_datetime(dataset[i], errors='coerce')
+                                l_stats = calculate_statistics(dataset, i)    
+                                if l_stats is not None:
+                                    dataset[i].fillna(l_stats['median'], inplace=True)
                             else:
                                 dataset[user_C_choice].fillna(dataset[user_C_choice].median(), inplace=True)
                         else:
@@ -212,12 +311,17 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
                     user_C_choice = ask_question_with_comboBox(list(dataset.columns))
                     if user_C_choice == 'All':
                         if dataset.isnull().values.any():
-                            
                             for i in dataset.columns:
-                                if i.lower() == 'date':
-                                    l_stats = calculate_statistics(dataset, i)
-                                    if l_stats is not None:
-                                        dataset[i].fillna(l_stats['mean'], inplace=True)
+                                if dataset[i].dropna().iloc[0] and validate_date(str(dataset[i].dropna().iloc[0])):
+                                    try:
+                                        dataset[i] = clean_time_strings(dataset[i])
+                                        dataset[i] = pd.to_datetime(dataset[i], errors='coerce')
+                                        l_stats = calculate_statistics(dataset, i)
+                                        if l_stats is not None:
+                                            dataset[i].fillna(l_stats['mean'], inplace=True)
+                                            
+                                    except Exception as e:
+                                        print(f"Case 2 Fill Error in column {i}: {e}")
                                 else:
                                     try:
                                         dataset[i].fillna(dataset[i].mean(), inplace=True)
@@ -229,9 +333,12 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
                             
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
-                            if user_C_choice.lower() == 'date':
-                                l_stats = calculate_statistics(dataset, user_C_choice)
-                                dataset[user_C_choice].fillna(l_stats['mean'], inplace=True)
+                            if validate_date(str(dataset[user_C_choice].dropna().iloc[0])):
+                                dataset[i] = clean_time_strings(dataset[i])
+                                dataset[i] = pd.to_datetime(dataset[i], errors='coerce')
+                                l_stats = calculate_statistics(dataset, i)    
+                                if l_stats is not None:
+                                    dataset[i].fillna(l_stats['mean'], inplace=True)
                             else:
                                 dataset[user_C_choice].fillna(dataset[user_C_choice].mean(), inplace=True)
                         else:
@@ -241,13 +348,20 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
                     if user_C_choice == 'All':
                         if dataset.isnull().values.any():
                             for i in dataset.columns:
-                                if i.lower() == 'date':
-                                    l_stats = calculate_statistics(dataset, i)
-                                    if l_stats is not None:
-                                        dataset[i].fillna(l_stats['mode'], inplace=True)
+                                if dataset[i].dropna().iloc[0] and validate_date(str(dataset[i].dropna().iloc[0])):
+                                    try:
+                                        dataset[i] = clean_time_strings(dataset[i])
+                                        dataset[i] = pd.to_datetime(dataset[i], errors='coerce')
+                                        l_stats = calculate_statistics(dataset, i)
+                                        if l_stats is not None:
+                                            dataset[i].fillna(l_stats['mode'], inplace=True)
+                                            
+                                    except Exception as e:
+                                        print(f"Case 3 Fill Error in column {i}: {e}")
                                 else:
                                     try:
-                                        dataset[i].fillna(dataset[i].mode(), inplace=True)
+                                        dataset[i].fillna(dataset[i].mode().iloc[0], inplace=True)
+                                        print('m',dataset[i])
                                     except Exception as e:
                                         print('Case 3 Fill Error', e)
                                         continue
@@ -256,11 +370,14 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
                             
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
-                            if user_C_choice.lower() == 'date':
-                                l_stats = calculate_statistics(dataset, user_C_choice)
-                                dataset[user_C_choice].fillna(l_stats['mode'], inplace=True)
+                            if validate_date(str(dataset[user_C_choice].dropna().iloc[0])):
+                                dataset[i] = clean_time_strings(dataset[i])
+                                dataset[i] = pd.to_datetime(dataset[i], errors='coerce')
+                                l_stats = calculate_statistics(dataset, i)    
+                                if l_stats is not None:
+                                    dataset[i].fillna(l_stats['mean'], inplace=True)
                             else:
-                                dataset[user_C_choice].fillna(dataset[user_C_choice].mode(), inplace=True)
+                                dataset[user_C_choice].fillna(dataset[user_C_choice].mean(), inplace=True)
                         else:
                             warnings.warn("No missing values found", UserWarning)
                 case 4:
@@ -285,7 +402,6 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int):
         raise UserWarning
 
     except Exception as e:
-        print("Yes2")
         print("There is a filling problem:", e)
         
         
