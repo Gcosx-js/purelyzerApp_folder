@@ -7,8 +7,8 @@ import pandas as pd
 import funcs as f
 import binary as bin
 import logging,os,sys,pickle
-import datetime
-import threading 
+import datetime,traceback
+import threading,subprocess
 
 class PurelyzerApp(QWidget):
     def __init__(self) -> None:
@@ -36,28 +36,39 @@ class PurelyzerApp(QWidget):
             self.refresh_overview_datas()
             
             self.app.fill_mv_done_btn.clicked.connect(self.fill_mv_doneBTN_clicked)
-
+            self.app.custom_v_lineedit.textChanged.connect(self.referenced_unchecker_for_f_mv)
     
 
-            
+    def referenced_unchecker_for_f_mv(self):
+        f.radio_btn_unchecker(self.app.median_radiobtn)
+        f.radio_btn_unchecker(self.app.average_radiobtn)
+        f.radio_btn_unchecker(self.app.mod_radiobtn)
+        f.radio_btn_unchecker(self.app.sequential_radiobtn)
+        
     def refresh_overview_datas(self):
-            '''
+        
             try:
-                print(self.dataset.shape[0])
-            except:
-                f.fmessagebox('Your data set must be in [ ROW x COLUMN ] format')
-                self.bin_manager.remove_line(row=(len(self.bin_manager.fetch_data_list())-1))
-                self.close()
-            '''
-            overview_list_items=[f'Row count : {self.dataset.shape[0]}',
-                                 f'Column count : {self.dataset.shape[1]}',
-                                 f'Missing values count : {self.dataset.isnull().sum().sum()}',
-                                 f'Duplicate values count : {self.dataset.duplicated().sum()}']
+                if self.dataset is None:
+                    raise ValueError("Dataset is not loaded properly.")
+                
+                overview_list_items = [
+                    f'Row count : {self.dataset.shape[0]}',
+                    f'Column count : {self.dataset.shape[1]}',
+                    f'Missing values count : {self.dataset.isnull().sum().sum()}',
+                    f'Duplicate values count : {self.dataset.duplicated().sum()}'
+                ]
+                
+                self.app.general_overview_listwidget.clear()
+                for i in range(len(overview_list_items)):
+                    
+                    self.app.general_overview_listwidget.insertItem(i, QListWidgetItem(overview_list_items[i]))
+                self.load_to_table(dataset_lo=self.dataset)
             
-            self.app.general_overview_listwidget.clear()
-            for i in range(len(overview_list_items)):
-                self.app.general_overview_listwidget.insertItem(i,QListWidgetItem(overview_list_items[i]))
-            self.load_to_table(dataset_lo=self.dataset)
+            except Exception as e:
+                error_trace = traceback.format_exc()
+                logging.error(f"Full Traceback: {error_trace}")
+                subprocess.run([sys.executable, "force_quit.py", str(e)])
+                self.close()
             
             
     def load_dataset_thread(self):
@@ -70,6 +81,7 @@ class PurelyzerApp(QWidget):
                     self.log_path =f'log_files/{os.path.basename(self.dataset_path).split('.')[0]}_save.log'
                     self.dataset = f.open_dataset_with_options(self.dataset_options_main)
                     self.load_thread.quit()
+                
                 
             self.load_thread.run = load_dataset_thread2
             self.load_thread.start()
@@ -172,6 +184,7 @@ class PurelyzerApp(QWidget):
         
         
         for i in range(len(dataset_lo.index)):
+            
             id_item = QTableWidgetItem(str(dataset_lo.index[i]))
             id_item.setFont(font)
             self.app.overview_table_widget.setItem(i, 0, id_item)
@@ -200,7 +213,7 @@ class PurelyzerApp(QWidget):
                     logging.info('Fill with MEDIAN has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
-                
+
             elif self.app.average_radiobtn.isChecked():
                 try:
                     f.fill_mv_func(self.dataset,2)
@@ -222,6 +235,14 @@ class PurelyzerApp(QWidget):
                     f.fill_mv_func(self.dataset,4)
                     self.refresh_overview_datas()
                     logging.info('Fill with SEQUENTIAL has used successfully!')
+                except UserWarning:
+                    f.fmessagebox('No missing value found!')
+            
+            elif self.app.custom_v_lineedit!='':
+                try:
+                    f.fill_mv_func(dataset=self.dataset,fill_method=5,custom_value=self.app.custom_v_lineedit.text())
+                    self.refresh_overview_datas()
+                    logging.info('Fill with MOD has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
         else:
