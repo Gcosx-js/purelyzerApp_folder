@@ -52,7 +52,8 @@ class BinaryFileManager():
             return None
 
 t = BinaryFileManager()
-
+for i in t.fetch_data_list():
+    print(i)
 #Example dataset elave etmek ucun
 '''
 t.add_data(['AirQualityUCI.csv',

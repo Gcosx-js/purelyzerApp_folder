@@ -5,6 +5,8 @@ from scipy import stats
 import warnings,easygui,os,subprocess
 from dateutil.parser import parse
 from binary import BinaryFileManager
+from memory_logger import get_shared_logger 
+logging = get_shared_logger()
 
 def force_quit_all():
     QApplication.quit()
@@ -31,18 +33,22 @@ def fmessagebox(message, title="Information", icon=QMessageBox.Information, butt
 
 
 def remove_null_data(dataset,choice):
+    full_null_row_count = dataset.isna().all(axis=1).sum()
+    full_null_column_count=dataset.isna().all(axis=0).sum()
     match choice:
         case 'row':
-            dataset.dropna(axis=0, how='any', subset=None, inplace=True) 
+            dataset.dropna(axis=0, how='any', subset=None, inplace=True)
+            logging.info(f'{full_null_row_count} rows has been deleted!')
         case 'column':
             dataset.dropna(axis=1, how='any', subset=None, inplace=True)
+            logging.info(f'{full_null_column_count} columns has been deleted!')
         case 'both':
             dataset.dropna(axis=0, how='all', subset=None, inplace=True)
             dataset.dropna(axis=1, how='all', subset=None, inplace=True)
-            
+            logging.info(f'{full_null_row_count} rows and {full_null_column_count} columns has been deleted!')
+        
 
 def open_dataset_with_options(options_list):
-
     file_path = options_list[0]
     
     file_format = options_list[1]
@@ -131,19 +137,11 @@ def open_dataset_with_options(options_list):
         return df
     
     except UnicodeDecodeError as e:
-        bm = BinaryFileManager()
-        for i in bm.fetch_data_list():
-            if i==options_list:
-                ind_r = bm.fetch_data_list().index(i)
-                bm.remove_line(ind_r)
+        
         subprocess.run([sys.executable, "force_quit.py", str(e)])
         
+        
     except Exception as e:
-        bm = BinaryFileManager()
-        for i in bm.fetch_data_list():
-            if i==options_list:
-                ind_r = bm.fetch_data_list().index(i)
-                bm.remove_line(ind_r)
         subprocess.run([sys.executable, "force_quit.py", f'OpenDataSet Error : {str(e)}'])
 
 
@@ -197,7 +195,6 @@ def calculate_statistics(data, i):
         except ValueError:
             continue
 
-    # Eğer tarih dönüşümü başarısızsa tüm değerler NaT olacak
     if data[i].isna().all():
         print(f"No valid dates found for column: {i}")
         return None
@@ -311,27 +308,37 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                         l_stats = calculate_statistics(dataset, i)
                                         if l_stats is not None:
                                             dataset[i].fillna(l_stats['median'], inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with MEDIAN ({l_stats['median']}).")
                                             
                                     except Exception as e:
+                                        logging.error(f"Column '{i}': Failed to fill missing values with MEDIAN. Error: {e}")
                                         resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{i}'",
                                                          'Purelyzer Error!',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                         if resp==QMessageBox.Yes:
-                                            dataset[i].fillna(method='ffill', inplace=True)
+                                            dataset[i].fillna(method='ffill', inplace=True) 
+                                            logging.info(f"Column '{i}': Successfully filled missing values with 'Sequential Forward Filling'.")
+                                            
                                 else:
                                     try:
                                         dataset[i].fillna(dataset[i].median(), inplace=True)
+                                        logging.info(f"Column '{i}': Successfully filled missing values with MEDIAN ({dataset[i].median()}).")
+                                    
                                     except Exception as e:
+                                        logging.error(f"Column '{i}': Failed to fill missing values with MEDIAN. Error: {e}")
+                        
                                         resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{i}'",
                                                          'Purelyzer Error!',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                         if resp==QMessageBox.Yes:
                                             dataset[i].fillna(method='ffill', inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with 'Sequential Forward Filling'.")
                                         continue
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
 
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
@@ -342,25 +349,32 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                     l_stats = calculate_statistics(dataset, i)    
                                     if l_stats is not None:
                                         dataset[user_C_choice].fillna(l_stats['median'], inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with MEDIAN ({l_stats['median']}).")
                                 except:
+                                    logging.error(f"Column '{user_C_choice}': Failed to fill missing values with MEDIAN. Error: {e}")
                                     resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
                                                          'Purelyzer Error!',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                     if resp==QMessageBox.Yes:
                                         dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
                             else:
                                 try:
                                     dataset[user_C_choice].fillna(dataset[user_C_choice].median(), inplace=True)
+                                    logging.info(f"Column '{user_C_choice}': Successfully filled missing values with MEDIAN ({dataset[user_C_choice].median()}).")
                                 except:
+                                    logging.error(f"Column '{user_C_choice}': Failed to fill missing values with MEDIAN. Error: {e}")
                                     resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
                                                          'Purelyzer Error!',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                     if resp==QMessageBox.Yes:
                                         dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
                 case 2:
                     user_C_choice = ask_question_with_comboBox(list(dataset.columns))
                     if user_C_choice == 'All':
@@ -375,27 +389,37 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                         l_stats = calculate_statistics(dataset, i)
                                         if l_stats is not None:
                                             dataset[i].fillna(l_stats['mean'], inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with MEAN ({l_stats['mean']}).")
                                             
                                     except Exception as e:
+                                        logging.error(f"Column '{i}': Failed to fill missing values with MEAN. Error: {e}")
                                         resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{i}'",
                                                          'Purelyzer Error! (Case 2)',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                         if resp==QMessageBox.Yes:
                                             dataset[i].fillna(method='ffill', inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with 'Sequential Forward Filling'.")
+                                            
+                                            
                                 else:
                                     try:
                                         dataset[i].fillna(dataset[i].mean(), inplace=True)
+                                        logging.info(f"Column '{i}': Successfully filled missing values with MEAN ({dataset[i].mean()}).")
+                                        
                                     except Exception as e:
+                                        logging.error(f"Column '{i}': Failed to fill missing values with MEAN. Error: {e}")
                                         resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{i}'",
                                                          'Purelyzer Error! (Case 2)',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                         if resp==QMessageBox.Yes:
                                             dataset[i].fillna(method='ffill', inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with 'Sequential Forward Filling'.")
                                         continue
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
                             
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
@@ -406,25 +430,32 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                     l_stats = calculate_statistics(dataset, user_C_choice)    
                                     if l_stats is not None:
                                         dataset[user_C_choice].fillna(l_stats['mean'], inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with MEAN ({l_stats['mean']}).")
                                 except:
-                                    resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
-                                                         'Purelyzer Error! (Case 2)',
-                                                         QMessageBox.Question,
-                                                         QMessageBox.Yes|QMessageBox.No)
-                                    if resp==QMessageBox.Yes:
-                                        dataset[i].fillna(method='ffill', inplace=True)
-                            else:
-                                try:
-                                    dataset[user_C_choice].fillna(dataset[user_C_choice].mean(), inplace=True)
-                                except:
+                                    logging.error(f"Column '{user_C_choice}': Failed to fill missing values with MEAN. Error: {e}")
                                     resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
                                                          'Purelyzer Error! (Case 2)',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                     if resp==QMessageBox.Yes:
                                         dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
+                            else:
+                                try:
+                                    dataset[user_C_choice].fillna(dataset[user_C_choice].mean(), inplace=True)
+                                    logging.info(f"Column '{user_C_choice}': Successfully filled missing values with MEAN ({dataset[user_C_choice].mean()}).")
+                                except:
+                                    logging.error(f"Column '{user_C_choice}': Failed to fill missing values with MEAN. Error: {e}")
+                                    resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
+                                                         'Purelyzer Error! (Case 2)',
+                                                         QMessageBox.Question,
+                                                         QMessageBox.Yes|QMessageBox.No)
+                                    if resp==QMessageBox.Yes:
+                                        dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
                 case 3:
                     user_C_choice = ask_question_with_comboBox(list(dataset.columns))
                     if user_C_choice == 'All':
@@ -439,27 +470,38 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                         l_stats = calculate_statistics(dataset, i)
                                         if l_stats is not None:
                                             dataset[i].fillna(l_stats['mode'], inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with MODE ({l_stats['mode']}).")
+                                            
                                             
                                     except Exception as e:
+                                        logging.error(f"Column '{i}': Failed to fill missing values with MODE. Error: {e}")
                                         resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{i}'",
                                                          'Purelyzer Error! (Case 3)',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                         if resp==QMessageBox.Yes:
                                             dataset[i].fillna(method='ffill', inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with 'Sequential Forward Filling'.")
                                 else:
                                     try:
                                         dataset[i].fillna(dataset[i].mode().iloc[0], inplace=True)
+                                        logging.info(f"Column '{i}': Successfully filled missing values with MODE ({dataset[i].mode().iloc[0]}).")
+                                        
                                     except Exception as e:
+                                        
+                                        logging.error(f"Column '{i}': Failed to fill missing values with MODE. Error: {e}")
                                         resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{i}'",
                                                          'Purelyzer Error! (Case 3)',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                         if resp==QMessageBox.Yes:
                                             dataset[i].fillna(method='ffill', inplace=True)
+                                            logging.info(f"Column '{i}': Successfully filled missing values with 'Sequential Forward Filling'.")
                                         continue
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
+                            
                             
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
@@ -469,8 +511,10 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                     dataset[user_C_choice] = pd.to_datetime(dataset[user_C_choice], errors='coerce')
                                     l_stats = calculate_statistics(dataset, user_C_choice)    
                                     if l_stats is not None:
-                                        dataset[user_C_choice].fillna(l_stats['mean'], inplace=True)
+                                        dataset[user_C_choice].fillna(l_stats['mode'], inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with MODE ({l_stats['mode']}).")
                                 except Exception as e:
+                                    logging.error(f"Column '{user_C_choice}': Failed to fill missing values with MODE. Error: {e}")
                                     print(e)
                                     resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
                                                          'Purelyzer Error! (Case 3)',
@@ -478,55 +522,77 @@ def fill_mv_func(dataset=pd.DataFrame(), fill_method=int,custom_value=False):
                                                          QMessageBox.Yes|QMessageBox.No)
                                     if resp==QMessageBox.Yes:
                                         dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
+                                        
                             else:
                                 try:
                                     dataset[user_C_choice].fillna(dataset[user_C_choice].mode().iloc[0], inplace=True)
+                                    logging.info(f"Column '{user_C_choice}': Successfully filled missing values with MODE ({dataset[user_C_choice].mode().iloc[0]}).")
+                                    
                                    
                                 except:
+                                    logging.error(f"Column '{user_C_choice}': Failed to fill missing values with MEDIAN. Error: {e}")
                                     resp=fmessagebox(f"An error occurred while filling the values, would you like to apply the 'Sequential Forward Filling' method to column '{user_C_choice}'",
                                                          'Purelyzer Error! (Case 3)',
                                                          QMessageBox.Question,
                                                          QMessageBox.Yes|QMessageBox.No)
                                     if resp==QMessageBox.Yes:
                                         dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                        logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
                 case 4:
                     user_C_choice = ask_question_with_comboBox(list(dataset.columns))
                     if user_C_choice == 'All':
                         if dataset.isnull().values.any():
                             try:
                                 dataset.fillna(method='ffill', inplace=True)
+                                logging.info(f"All columns successfully filled missing values with 'Sequential Forward Filling'.")
                             except Exception as e:
+                                logging.error(f"Failed to fill missing values with Sequential Forward Filling. Error: {e}")
                                 fmessagebox('Case 4 Error : '+e)
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().any():
                             try:
                                 dataset[user_C_choice].fillna(method='ffill', inplace=True)
+                                logging.info(f"Column '{user_C_choice}': Successfully filled missing values with 'Sequential Forward Filling'.")
                             except Exception as e:
+                                logging.error(f"Failed to fill missing values with Sequential Forward Filling. Error: {e}")
                                 fmessagebox('Case 4 Error : '+e)
                         else:
                             warnings.warn("No missing values found", UserWarning)
+                            logging.warning('No missing values found')
+                            
+                            
                 case 5:
                     user_C_choice = ask_question_with_comboBox(list(dataset.columns) )
                     if user_C_choice=='All':
                         if dataset.isnull().values.any():
                             try:
                                 dataset.fillna(value=custom_value,inplace=True)
+                                logging.info(f"All columns : Successfully filled missing values with sustom value '{custom_value}'.")
                             except Exception as e:
+                                logging.error(f"Failed to fill missing values with custom value. Error: {e}")
+                                    
                                 fmessagebox('Case 5 Error : '+e)
                         else:
                             warnings.warn('No missing values found',UserWarning)
+                            logging.warning('No missing values found')
                     elif user_C_choice:
                         if dataset[user_C_choice].isnull().values.any():
                             try:
                                 dataset[user_C_choice].fillna(value=custom_value,inplace=True)
+                                logging.info(f"Column {user_C_choice} : Successfully filled missing values with sustom value '{custom_value}'.")
                             except Exception as e:
+                                logging.error(f"Failed to fill missing values with custom value. Error: {e}")
                                 fmessagebox('Case 5 Error : '+e)
                         else:
                             warnings.warn('No missing values found',UserWarning)
+                            logging.warning('No missing values found')
                                    
                 
                 

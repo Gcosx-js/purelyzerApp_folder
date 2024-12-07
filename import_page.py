@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 import binary  as bin
 import funcs as f
-import os,logging,pickle
+import os,pickle
 from main import PurelyzerApp
 
 class ImportPage_UI(QWidget):
@@ -121,6 +121,7 @@ class ImportPage_UI(QWidget):
                                            self.browsed_file_path.endswith('.xlx') or 
                                            self.browsed_file_path.endswith('.xlsx')):
             base_path=os.path.basename(self.browsed_file_path)
+            self.browse_file_btn.setText(base_path)
             for i in self.manager.fetch_data_list():
                 if os.path.basename(i[0])==base_path:
                     if i[0]==self.browsed_file_path:
@@ -206,25 +207,25 @@ class ImportPage_UI(QWidget):
                 # sehifeye data.pkl fayli ile gonderilmesi
                 options_list=[
                             str(self.file_format_combo.currentText()),
-                            str(self.delimiter_input.text()),
+                            str(self.delimiter_input.text()) if str(self.delimiter_input.text())!='' else ',',
                             str(self.header_yes.isChecked()),
                             str(self.columns_input.text()),#5
                             str(self.missing_value_input.text()),
                             str(self.rows_input.text()),
                             str(self.date_convert_checkbox.isChecked()),
-                            str(self.encoding_input.text()),
+                            str(self.encoding_input.text()) if str(self.encoding_input.text())=='' else 'utf-8',
                             str(self.skip_rows_input.text())]
                 if self.browsed_file_path!='' and (self.browsed_file_path.endswith('.csv') or
                                             self.browsed_file_path.endswith('.json') or 
                                             self.browsed_file_path.endswith('.xlx') or 
                                             self.browsed_file_path.endswith('.xlsx')):
                             options_list.insert(0,self.browsed_file_path)
+                            
                             with open("data.pkl", "wb") as file:
                                 pickle.dump(options_list, file)
-                            self.manager.add_data(options_list)
+                                
                             self.new_ui=PurelyzerApp()   
                             self.new_ui.show()
-                            self.manager.add_data(options_list)
                             self.close()
 
 

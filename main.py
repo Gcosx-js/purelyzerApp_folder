@@ -6,37 +6,36 @@ from purelyzer_ui import Ui_Form
 import pandas as pd
 import funcs as f
 import binary as bin
-import logging,os,sys,pickle
+import os,sys,pickle
 import datetime,traceback
+from memory_logger import get_shared_logger
+from memory_logger import get_log_contents as log_reader
 import threading,subprocess
+
+logging = get_shared_logger()
 
 class PurelyzerApp(QWidget):
     def __init__(self) -> None:
             super().__init__()
             self.app = Ui_Form()
             self.app.setupUi(self)
+            logging.info('Purelyzer launched!')
             self.auto_save_bool = True
             self.bin_manager = bin.BinaryFileManager()
-            
             self.load_dataset_thread()
             self.load_to_table(dataset_lo=self.dataset)
-            '''
-            self.dataset_path = 'AirQualityUCI.csv'
-            self.log_path =f'{os.path.basename(self.dataset_path).split('.')[0]}_save.log'
-            self.dataset = pd.read_csv(self.dataset_path,sep=';',usecols=range(15))
-            '''
-            #Log tutma alani
-            logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)s %(message)s',
-                        filename=self.log_path,
-                        filemode='w')
+            self.bin_manager.add_data(self.dataset_options_main)
+            logging.info('Dataset loaded!')
             
+            #self.log_path --> Log faylinin yolu
+
             #Doldurma ve silme butonlarinin baglantilari
+            
             self.app.done_remove_mv_btn.clicked.connect(self.remove_mv_donebtn)
             self.refresh_overview_datas()
-            
             self.app.fill_mv_done_btn.clicked.connect(self.fill_mv_doneBTN_clicked)
             self.app.custom_v_lineedit.textChanged.connect(self.referenced_unchecker_for_f_mv)
+            
     
 
     def referenced_unchecker_for_f_mv(self):
@@ -49,6 +48,7 @@ class PurelyzerApp(QWidget):
         
             try:
                 if self.dataset is None:
+                    logging.warning('Dataset is not loaded properly.')
                     raise ValueError("Dataset is not loaded properly.")
                 
                 overview_list_items = [
@@ -91,57 +91,63 @@ class PurelyzerApp(QWidget):
     def remove_mv_donebtn(self):
         logging.info('"Remove missing values" button clicked!')
         if self.app.full_null_radiobtn.isChecked():
-            full_null_row_count = self.dataset.isna().all(axis=1).sum()
-            full_null_column_count=self.dataset.isna().all(axis=0).sum()
-            
-            resp=f.fmessagebox(f'Do you want to remove {full_null_row_count} rows and {full_null_column_count} columns ?',
-                               'Confirmation',
-                               QMessageBox.Question,
-                               QMessageBox.Yes|QMessageBox.No)
-            if resp==QMessageBox.Yes:
-                f.remove_null_data(self.dataset,choice='both')
-                f.fmessagebox(f'{full_null_row_count} rows and {full_null_column_count} columns has been deleted!')
-                logging.info(f'{full_null_row_count} rows and {full_null_column_count} columns has been deleted!')
-                f.radio_btn_unchecker(self.app.full_null_radiobtn)
+            if self.dataset.isnull().values.any():
+                full_null_row_count = self.dataset.isna().all(axis=1).sum()
+                full_null_column_count=self.dataset.isna().all(axis=0).sum()
                 
-                self.refresh_overview_datas()
-                
+                resp=f.fmessagebox(f'Do you want to remove {full_null_row_count} rows and {full_null_column_count} columns ?',
+                                'Confirmation',
+                                QMessageBox.Question,
+                                QMessageBox.Yes|QMessageBox.No)
+                if resp==QMessageBox.Yes:
+                    f.remove_null_data(self.dataset,choice='both')
+                    f.fmessagebox(f'{full_null_row_count} rows and {full_null_column_count} columns has been deleted!')
+                    f.radio_btn_unchecker(self.app.full_null_radiobtn)
+                    
+                    self.refresh_overview_datas()
+                    
+                else:
+                    f.fmessagebox('Operation cancelled!')
+                    logging.warn('"Remove entirely full row/column" operation cancelled!')
             else:
-                f.fmessagebox('Operation cancelled!')
-                logging.warn('"Remove entirely full row/column" operation cancelled!')
+                f.fmessagebox('No missing value found!')
 
         elif self.app.row_remove_mv_btn.isChecked():
-            nan_rows_count = self.dataset.isna().any(axis=1).sum()
-            resp=f.fmessagebox(f'Do you want to remove {nan_rows_count} rows?',
-                               'Confirmation',
-                               QMessageBox.Question,
-                               QMessageBox.Yes|QMessageBox.No)
-            if resp==QMessageBox.Yes:
-                f.remove_null_data(self.dataset,choice='row')
-                f.fmessagebox(f'{nan_rows_count} rows has been deleted!')
-                logging.info(f'{nan_rows_count} rows has been deleted!')
-                f.radio_btn_unchecker(self.app.row_remove_mv_btn)
-                self.refresh_overview_datas()
+            if self.dataset.isnull().values.any():
+                nan_rows_count = self.dataset.isna().any(axis=1).sum()
+                resp=f.fmessagebox(f'Do you want to remove {nan_rows_count} rows?',
+                                'Confirmation',
+                                QMessageBox.Question,
+                                QMessageBox.Yes|QMessageBox.No)
+                if resp==QMessageBox.Yes:
+                    f.remove_null_data(self.dataset,choice='row')
+                    f.fmessagebox(f'{nan_rows_count} rows has been deleted!')
+                    f.radio_btn_unchecker(self.app.row_remove_mv_btn)
+                    self.refresh_overview_datas()
+                else:
+                    f.fmessagebox('Operation cancelled!')
+                    logging.warn('"Remove rows" operation cancelled!')
             else:
-                f.fmessagebox('Operation cancelled!')
-                logging.warn('"Remove rows" operation cancelled!')
+                f.fmessagebox('No missing value found!')
                 
-         
+        
         elif self.app.column_remove_mv_btn.isChecked():
-            nan_columns_count = self.dataset.isna().any(axis=0).sum()
-            resp=f.fmessagebox(f'Do you want to remove {nan_columns_count} columns?',
-                               'Confirmation',
-                               QMessageBox.Question,
-                               QMessageBox.Yes|QMessageBox.No)
-            if resp==QMessageBox.Yes:
-                f.remove_null_data(self.dataset,choice='column')
-                f.fmessagebox(f'{nan_columns_count} columns has been deleted!')
-                logging.info(f'{nan_columns_count} columns has been deleted!')
-                self.refresh_overview_datas()
-                
+            if self.dataset.isnull().values.any():
+                nan_columns_count = self.dataset.isna().any(axis=0).sum()
+                resp=f.fmessagebox(f'Do you want to remove {nan_columns_count} columns?',
+                                'Confirmation',
+                                QMessageBox.Question,
+                                QMessageBox.Yes|QMessageBox.No)
+                if resp==QMessageBox.Yes:
+                    f.remove_null_data(self.dataset,choice='column')
+                    f.fmessagebox(f'{nan_columns_count} columns has been deleted!')
+                    self.refresh_overview_datas()
+                    
+                else:
+                    f.fmessagebox('Operation cancelled!')
+                    logging.warn('"Remove columns" operation cancelled!')
             else:
-                f.fmessagebox('Operation cancelled!')
-                logging.warn('"Remove columns" operation cancelled!')
+                f.fmessagebox('No missing value found!')
                 
     
     def closeEvent(self,event):
@@ -164,6 +170,7 @@ class PurelyzerApp(QWidget):
         else:
             event.accept()
             logging.info(f'"Pureleyzer" Closed!')
+            print(log_reader())
     
         #Thread istifade ederek eyni zamanda loading prosesi
     def load_to_table(self,dataset_lo=pd.DataFrame):
@@ -200,7 +207,7 @@ class PurelyzerApp(QWidget):
                    
     
     def fill_mv_doneBTN_clicked(self,index):
-        logging.info('Fill Missing Value Button Clicked!')
+        logging.info('"Fill missing value" button clicked!')
         resp=f.fmessagebox(f'Are you sure to fill NA values?',
                                'Confirmation',
                                QMessageBox.Question,
@@ -210,7 +217,6 @@ class PurelyzerApp(QWidget):
                 try:
                     f.fill_mv_func(self.dataset,1)
                     self.refresh_overview_datas()
-                    logging.info('Fill with MEDIAN has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
 
@@ -218,7 +224,6 @@ class PurelyzerApp(QWidget):
                 try:
                     f.fill_mv_func(self.dataset,2)
                     self.refresh_overview_datas()
-                    logging.info('Fill with AVERAGE has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
             elif self.app.mod_radiobtn.isChecked():
@@ -226,7 +231,6 @@ class PurelyzerApp(QWidget):
                 try:
                     f.fill_mv_func(self.dataset,3)
                     self.refresh_overview_datas()
-                    logging.info('Fill with MOD has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
                     
@@ -234,7 +238,6 @@ class PurelyzerApp(QWidget):
                 try:
                     f.fill_mv_func(self.dataset,4)
                     self.refresh_overview_datas()
-                    logging.info('Fill with SEQUENTIAL has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
             
@@ -242,7 +245,6 @@ class PurelyzerApp(QWidget):
                 try:
                     f.fill_mv_func(dataset=self.dataset,fill_method=5,custom_value=self.app.custom_v_lineedit.text())
                     self.refresh_overview_datas()
-                    logging.info('Fill with MOD has used successfully!')
                 except UserWarning:
                     f.fmessagebox('No missing value found!')
         else:
@@ -253,13 +255,3 @@ class PurelyzerApp(QWidget):
             logging.warn('Filling process cancelled!')
         
                 
-'''   
-def main():
-    app = QApplication([])
-    purelyzer_page = PurelyzerApp()
-    purelyzer_page.show()
-    app.exec_()
-
-if __name__ == "__main__":
-    main()
-'''
